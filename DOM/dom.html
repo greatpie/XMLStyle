@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>提取 xml/xhtml文件DOM树</title>
+    <style type="text/css">
+        #root{
+            width: 4000px;
+        }
+        .nodeList {
+            height: auto;
+            display: inline-block;
+        }
+        .title{
+            width: 100%;
+            height: auto;
+            color: #ffffff;
+            padding-top: 5px;
+            text-align: center;
+            background-color: #00aba9;
+        }
+    </style>
+</head>
+<body>
+<div class="nodeList" id="root">
+    <div class="title"></div>
+</div>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //create by pie，for XML homework
+        //文件路径，如浏览器无法读取本地文件请填写相对路径
+        var file_path = '../shop_plus.xml';
+
+        var xmlDoc = loadXMLDoc(file_path);
+        var rootNodeList = xmlDoc.documentElement;
+        var rootDiv =$("#root");
+            console.log(rootNodeList);
+        traverseNodeList(rootNodeList,rootDiv);
+
+        //加载xml文档
+        function loadXMLDoc(file_path) {
+            //UA判断，分别调用微软xml解析器和firefox解析器,chrome原生不支持需要用过ajax方式解析文件
+            var xmlDoc;
+            if (navigator.userAgent.match('Trident')) {
+                xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+            } else {
+                xmlDoc = document.implementation.createDocument("", "", null);
+            }
+            xmlDoc.async = false;
+            xmlDoc.load(file_path);
+            return xmlDoc;
+        }
+
+
+        //递归遍历
+        function traverseNodeList(nodeList,nodeDiv){
+            var titleText;
+            if(nodeList.nodeType == 3){
+                titleText = '节点类型:  文本'+'   文本值:'+nodeList.nodeValue;
+                nodeDiv.find('.title').text(titleText);
+            }else if(nodeList.nodeType == 2){
+                titleText = '节点类型:  属性'+'   属性名称:'+nodeList.nodeName+' 属性值：'+nodeList.nodeValue;
+                nodeDiv.find('.title').text(titleText);
+            }else if(nodeList.nodeType == 1){
+                titleText = '节点类型:  元素'+'   元素名称:'+nodeList.nodeName;
+                nodeDiv.find('.title').text(titleText);
+                var node_list_childs = nodeList.childNodes;
+                var len = node_list_childs.length;
+                var div_width = (100)/len;
+                for(var i=0;i<node_list_childs.length;i++){
+                    var childDiv = $('<div></div>');
+                    childDiv.addClass('nodeList');
+                    var div_width_percent =div_width+'%';
+                    var div_margin = div_width*i;
+//                    var div_margin_percnet = div_margin+'%';
+
+                    childDiv.css('width',div_width_percent);
+//                    childDiv.css('left',div_margin_percnet);
+                    childDiv.appendTo(nodeDiv);
+                    var childTitleDiv = $('<div></div>');
+                    childTitleDiv.addClass('title');
+                    childTitleDiv.appendTo(childDiv);
+                    traverseNodeList(node_list_childs[i],childDiv);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

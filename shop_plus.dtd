@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT 商品清单 (商品信息+)>
+<!ELEMENT 商品信息 (名称, 品牌, 价格, 生产商, 规格, 生产日期,保质期?,图片)>
+	<!ATTLIST 商品信息 商品id ID #REQUIRED>
+<!ELEMENT 图片 (#PCDATA)>
+<!ELEMENT 名称 (中文名,英文名)>
+	<!ATTLIST 名称 种类 (服饰箱包|家电|数码通信|汽车配件|生活居家|食品|图书音像|医药|户外|美妆护理|宠物|虚拟商品|其他) #IMPLIED>
+<!ELEMENT 品牌 (#PCDATA)>
+<!ELEMENT 价格 (成本价,零售价)>
+<!ELEMENT 生产商 (公司名称,地址,联系电话*)>
+<!ELEMENT 规格 (单位,数值)>
+<!ELEMENT 生产日期 (#PCDATA)>
+<!ELEMENT 保质期 (#PCDATA)>
+<!ELEMENT 中文名 (#PCDATA)>
+<!ELEMENT 英文名 (#PCDATA)>
+<!ELEMENT 成本价 (#PCDATA)>
+	<!ATTLIST 成本价 货币单位 CDATA #FIXED "元">
+<!ELEMENT 零售价 (#PCDATA)>
+	<!ATTLIST 零售价 货币单位 CDATA #FIXED "元">
+<!ELEMENT 公司名称 (#PCDATA)>
+<!ELEMENT 地址 (省市,区?,县?,镇?,街道)>
+<!ELEMENT 联系电话 (#PCDATA)>
+<!ELEMENT 单位 (#PCDATA)>
+<!ELEMENT 数值 (#PCDATA)>
+<!ELEMENT 省市 (#PCDATA)>
+<!ELEMENT 区 (#PCDATA)>
+<!ELEMENT 县 (#PCDATA)>
+<!ELEMENT 镇 (#PCDATA)>
+<!ELEMENT 街道 (#PCDATA)>
